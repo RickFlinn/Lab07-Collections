@@ -5,34 +5,54 @@ using LabSeven_Collections.Classes;
 
 namespace LabSeven_Collections.Classes
 {
+
+    enum Suits { Diamonds, Clubs, Spades, Hearts }
+    enum FaceCards { Jack=11, Queen, King }
+
+
     class Card
     {
 
-        private int rank;
-
-
-        public int Rank
+        public string Rank { get; set; }
+        public Suits Suit { get; set; }
+        
+        public void SetRank(int value)
         {
-            get => rank;
-            set
+            if (value > 1 && value <= 10)
             {
-                if (value >= 1 && value <= 13)
-                {
-                    rank = value;
-                } else
-                {
-                    rank = 0;
-                }
+                Rank = value.ToString();
+            }
+            else if (value == 1)
+            {
+                Rank = "Ace";
+            }
+            else if ( value < 14 && value > 10)
+            {
+                Rank = Enum.GetName(typeof(FaceCards), value);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Invalid rank");
             }
         }
 
-        public Suit Suit { get; set; }
-
-
-        public Card (Suit givenSuit, int givenRank)
+        public override string ToString()
         {
-            Suit = givenSuit;
-            Rank = givenRank;
+            return $"{Rank} of {Suit}";
+        }
+        
+
+
+        public Card (Suits givenSuit, int givenRank)
+        {
+            try
+            {
+                Suit = givenSuit;
+                SetRank(givenRank);
+            } catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }
