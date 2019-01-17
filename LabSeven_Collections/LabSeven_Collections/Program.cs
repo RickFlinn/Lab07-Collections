@@ -7,19 +7,67 @@ namespace LabSeven_Collections
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
-            int four = 4;
-            Card[] derp = { new Card(Suits.Diamonds, 3), new Card(Suits.Spades, 4), null, new Card(Suits.Hearts, 11)};
-            Array.Resize(ref derp, 3);
-            foreach(Card thing in derp)
+            try
             {
-                if (thing != null)
-                {
-                    Console.Write($"{thing.ToString()} ");
+                Deck<Card> dealer = new Deck<Card> { OwnerName = "Dealer" };
+                Deck<Card> playerOne = new Deck<Card> { OwnerName = "Player One" };
+                Deck<Card> playerTwo = new Deck<Card> { OwnerName = "Player Two" };
 
+                dealer.Add(new Card(Suits.Clubs, 7));
+                dealer.Add(new Card(Suits.Diamonds, 11));
+                dealer.Add(new Card(Suits.Hearts, 12));
+                dealer.Add(new Card(Suits.Spades, 13));
+
+                Console.WriteLine();
+                dealer.PrintAllItems();
+                dealer.CountItems();
+                Console.WriteLine();
+
+                dealer.Add(new Card(Suits.Clubs, 2));
+                dealer.Add(new Card(Suits.Clubs, 4));
+                dealer.Add(new Card(Suits.Hearts, 6));
+                dealer.Add(new Card(Suits.Spades, 1));
+                dealer.Add(new Card(Suits.Diamonds, 9));
+                dealer.Remove(new Card(Suits.Clubs, 7));
+
+                Console.WriteLine();
+                dealer.PrintAllItems();
+                dealer.CountItems();
+                Console.WriteLine();
+
+                Deal(dealer, playerOne, playerTwo);
+
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+                
+
+        }
+
+        public static void Deal(Deck<Card> dealer, Deck<Card> playerOne, Deck<Card> playerTwo)
+        {
+            dealer.PrintAllItems();
+            playerOne.PrintAllItems();
+            playerTwo.PrintAllItems();
+            
+
+            int evenCards = (dealer.CountItems() / 2) * 2; // because uneven quotients of int round down, this will always round the dealer's deck size down to the nearest even number of cards. 
+            Card[] cahds = dealer.decko;
+            for (int i = 0; i < evenCards; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    playerOne.Add(dealer.Remove(cahds[i]));
+                } else
+                {
+                    playerTwo.Add(dealer.Remove(cahds[i]));
                 }
             }
+
+            dealer.PrintAllItems();
+            playerOne.PrintAllItems();
+            playerTwo.PrintAllItems();
         }
     }
 }

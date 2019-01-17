@@ -8,7 +8,7 @@ namespace LabSeven_Collections.Classes
 
     class Deck<T> : IEnumerable<T>
     {
-        T[] decko = new T[13];
+        public T[] decko = new T[13];
         private int nextIndex = 0;
 
         public string OwnerName { get; set; }
@@ -23,44 +23,80 @@ namespace LabSeven_Collections.Classes
 
             decko[nextIndex] = item;
             nextIndex++;
+            Console.WriteLine($"Added {item} to {OwnerName}'s deck.");
         }
 
         /// <summary>
-        ///     Searches for a given item in the deck. If it is found, the item is replaced by the value at the 
-        ///     end of the array of items, and 
+        ///     Searches for a given item in the deck. If it is found, the item is replaced by the last item in the deck,
+        ///     and the array is resized. 
         /// </summary>
         /// <param name="item"></param>
-        public void Remove(T item)
+        public T Remove(T item)
         {
             for (int i = 0; i < nextIndex; i++)
             {
                 if (item.Equals(decko[i]))
                 {
+                    Console.WriteLine($"Removed {decko[i].ToString()} from {OwnerName}'s deck.");
+                    T removedItem = decko[i];
                     decko[i] = decko[nextIndex - 1];
-                    Array.Resize(ref decko, decko.Length - 1);
-                    nextIndex--;
-                    return;
+                    if (decko.Length > 1)
+                    {
+                        Array.Resize(ref decko, nextIndex - 1); // destroys duplicate value
+                        nextIndex--;
+                    } else
+                    {
+                        decko[0] = default(T);
+                    }
+                    return removedItem;
                 }
             }
+            throw new ArgumentOutOfRangeException("Item not found");
         }
 
         public void PrintAllItems()
         {
-            Console.WriteLine($"This deck contains: {decko[0].ToString()}");
-            for(int i = 1; i < nextIndex; i++)
+            Console.Write($"{OwnerName}'s deck contains: ");
+            if (decko[0] == null)
             {
-                if (decko[i] != null)
+                Console.Write("nuffin.");
+            }
+            else
+            {
+                Console.Write($"{decko[0]}");
+                for(int i = 1; i < nextIndex; i++)
                 {
-                    Console.WriteLine($", {decko[i].ToString()}");
+                    if (decko[i] != null)
+                    {
+                        Console.Write($", {decko[i].ToString()}");
+                    }
                 }
             }
+            Console.WriteLine();
+        }
+
+        public int CountItems()
+        {
+            int counter = 0;
+            foreach(T item in decko)
+            {
+                if (item != null)
+                {
+                    counter++;
+                }
+            }
+            Console.WriteLine($"{OwnerName}'s deck has {counter} thangs.");
+            return counter;
         }
         
         public IEnumerator<T> GetEnumerator()
         {
             foreach(T thingy in decko)
             {
-                yield return thingy;
+                if (thingy != null)
+                {
+                    yield return thingy;
+                }
             }
         }
 
