@@ -41,8 +41,6 @@ namespace LabSeven_Collections.Classes
             return $"{Rank} of {Suit}";
         }
         
-
-
         public Card (Suits givenSuit, int givenRank)
         {
             try
@@ -53,6 +51,11 @@ namespace LabSeven_Collections.Classes
             {
                 throw e;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj.ToString() == ToString();
         }
     }
 }
