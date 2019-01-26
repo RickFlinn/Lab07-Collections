@@ -13,22 +13,30 @@ namespace LabSeven_Collections
                 Deck<Card> playerOne = new Deck<Card> { OwnerName = "Player One" };
                 Deck<Card> playerTwo = new Deck<Card> { OwnerName = "Player Two" };
 
-                dealer.Add(new Card(Suits.Clubs, 7));
-                dealer.Add(new Card(Suits.Diamonds, 11));
-                dealer.Add(new Card(Suits.Hearts, 12));
-                dealer.Add(new Card(Suits.Spades, 13));
+                dealer.Add(new Card(Suits.Clubs, (Ranks)7));
+                dealer.Add(new Card(Suits.Diamonds, (Ranks)11));
+                dealer.Add(new Card(Suits.Hearts, (Ranks)12));
+                dealer.Add(new Card(Suits.Spades, (Ranks)13));
 
                 Console.WriteLine();
                 dealer.PrintAllItems();
                 dealer.CountItems();
                 Console.WriteLine();
+                Console.Write("foreach loop over Dealer's deck yields: ");
+                foreach(Card card in dealer)
+                {
+                    Console.Write($"{card.ToString()}  ");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
 
-                dealer.Add(new Card(Suits.Clubs, 2));
-                dealer.Add(new Card(Suits.Clubs, 4));
-                dealer.Add(new Card(Suits.Hearts, 6));
-                dealer.Add(new Card(Suits.Spades, 1));
-                dealer.Add(new Card(Suits.Diamonds, 9));
-                dealer.Remove(new Card(Suits.Clubs, 7));
+
+                dealer.Add(new Card(Suits.Clubs, (Ranks)2));
+                dealer.Add(new Card(Suits.Clubs, (Ranks)4));
+                dealer.Add(new Card(Suits.Hearts, (Ranks)6));
+                dealer.Add(new Card(Suits.Spades, (Ranks)1));
+                dealer.Add(new Card(Suits.Diamonds, (Ranks)9));
+                dealer.Remove(new Card(Suits.Clubs, (Ranks)7));
 
                 Console.WriteLine();
                 dealer.PrintAllItems();
