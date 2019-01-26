@@ -6,47 +6,26 @@ using LabSeven_Collections.Classes;
 namespace LabSeven_Collections.Classes
 {
 
-    enum Suits { Diamonds, Clubs, Spades, Hearts }
-    enum FaceCards { Jack=11, Queen, King }
-
-
-    class Card
+    public enum Suits { Diamonds, Clubs, Spades, Hearts }
+    public enum Ranks { Ace=1, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King }
+    
+    public class Card
     {
-
-        public string Rank { get; set; }
+        public Ranks Rank { get; set; }
         public Suits Suit { get; set; }
         
-        public void SetRank(int value)
-        {
-            if (value > 1 && value <= 10)
-            {
-                Rank = value.ToString();
-            }
-            else if (value == 1)
-            {
-                Rank = "Ace";
-            }
-            else if ( value < 14 && value > 10)
-            {
-                Rank = Enum.GetName(typeof(FaceCards), value);
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Invalid rank");
-            }
-        }
 
         public override string ToString()
         {
             return $"{Rank} of {Suit}";
         }
         
-        public Card (Suits givenSuit, int givenRank)
+        public Card (Suits givenSuit, Ranks givenRank)
         {
             try
             {
                 Suit = givenSuit;
-                SetRank(givenRank);
+                Rank = givenRank;
             } catch (Exception e)
             {
                 throw e;

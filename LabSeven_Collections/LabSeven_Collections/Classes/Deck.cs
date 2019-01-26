@@ -6,7 +6,7 @@ using System.Text;
 namespace LabSeven_Collections.Classes
 {
 
-    class Deck<T> : IEnumerable<T>
+    public class Deck<T> : IEnumerable<T>
     {
         public T[] decko = new T[13];
         private int nextIndex = 0;
@@ -33,25 +33,33 @@ namespace LabSeven_Collections.Classes
         /// <param name="item"></param>
         public T Remove(T item)
         {
-            for (int i = 0; i < nextIndex; i++)
+            try
             {
-                if (item.Equals(decko[i]))
+                for (int i = 0; i < nextIndex; i++)
                 {
-                    Console.WriteLine($"Removed {decko[i].ToString()} from {OwnerName}'s deck.");
-                    T removedItem = decko[i];
-                    decko[i] = decko[nextIndex - 1];
-                    if (decko.Length > 1)
+                    if (item.Equals(decko[i]))
                     {
-                        Array.Resize(ref decko, nextIndex - 1); // destroys duplicate value
-                        nextIndex--;
-                    } else
-                    {
-                        decko[0] = default(T);
+                        Console.WriteLine($"Removed {decko[i].ToString()} from {OwnerName}'s deck.");
+                        T removedItem = decko[i];
+                        decko[i] = decko[nextIndex - 1];
+                        if (decko.Length > 1)
+                        {
+                            Array.Resize(ref decko, nextIndex - 1); // destroys duplicate value
+                            nextIndex--;
+                        }
+                        else
+                        {
+                            decko[0] = default(T);
+                        }
+                        return removedItem;
                     }
-                    return removedItem;
                 }
+                throw new ArgumentOutOfRangeException("Item not found in stack");
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw e;
             }
-            throw new ArgumentOutOfRangeException("Item not found");
         }
 
         public void PrintAllItems()
